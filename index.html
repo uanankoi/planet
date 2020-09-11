@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+      body{
+          width: 100vw;
+          height: 100vh;
+          background-image: linear-gradient(blue,pink);
+          background-size: 200% 200%;
+          animation: space 10s infinite alternate;
+          /* background-position-y: 100%; */
+      }
+      .container-fluid{
+          position: relative;
+          width: 100%;
+          height: 100%;
+          /* background-color: rgb(59, 46, 46); */
+          overflow: hidden;
+      }
+      .fog{
+          width: 500px;
+          height: 500px;
+          position: absolute;
+          top: -20%;
+          left: 75%;
+          background-color: rgb(44, 56, 160);
+          animation: fog 10s infinite alternate ease-in-out;
+      }
+      .stars, .layer3, .layer4, .layer5, .layer6, .layer7{
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+      .star{
+          position: absolute;
+          border-radius: 50%;
+      }
+      .moon{
+          position: absolute;
+          width: 25vw;
+          height: 25vw;
+          background-color: rgb(255, 255, 255);
+          /* background-color: rgb(145, 216, 200); */
+          /* background-color: rgb(173, 153, 153); */
+          /* background-color: rgb(240, 225, 145); */
+          border-radius: 50%;
+          /* box-shadow: inset 50px 40px 20px rgb(255, 217, 0); */
+          top: 20%;
+          left: 50%;
+          /* animation: moon 20s infinite alternate linear; */
+      }
+      .planet, .cloud{
+          position: absolute;
+      }
+      .bluePlanet{
+          top: -20%;
+          left: 0;
+          animation: around 15s infinite linear;
+          border-radius: 40%;
+      }
+      .bigPlanet{
+          top: 50vh;
+          left: 0%;
+          animation: around2 30s infinite linear;
+      }
+      .bigPlanet img{
+          width: 100vw;
+      }
+      .redPlanet{
+          top: 50%;
+          left: 70%;
+          animation: around2 50s infinite linear;
+      }
+      .pinkPlanet{
+          top: 50%;
+          left: -15%;
+          animation: around3 10s infinite ease-in-out;
+      }
+      .man{
+          position: absolute;
+          bottom: -6%;
+          right: -5%;
+          animation: man 15s infinite ease-in-out;
+          cursor: pointer;
+      }
+      .speak{
+          position: absolute;
+          width: 230px;
+          height: 100px;
+          background-color: rgb(90, 78, 78);
+          font-size: 1rem;
+          color: whitesmoke;
+          text-align: center;
+          line-height: 100px;
+          clip-path: polygon(8% 33%, 13% 68%, 51% 78%, 73% 100%, 67% 76%, 95% 71%, 96% 40%, 75% 13%);
+          bottom: 20%;
+          right: 15%;
+      }
+      .layer8{
+          width: 100%;
+          height: 120px;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          /* background-color: #fff; */
+          transition: 1s ease-in-out;
+      }
+      .open{
+          width: 40px;
+          height: 40px;
+          /* background-color: rgb(0, 0, 0); */
+          margin: 10px auto;
+          cursor: pointer;
+      }
+      ul.bar{
+          width: 200px;
+          height: 50px;
+          padding: 0;
+          /* background-color: rgb(238, 238, 238); */
+          border-radius: 3px;
+          list-style: none;
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
+          margin: 0 auto;
+      }
+      ul.bar li{
+          width: 40px;
+          height: 40px;
+          /* background-color: rgb(219, 175, 53); */
+          border-radius: 50%;
+          cursor: pointer;
+      }
+      .inputText{
+          position: fixed;
+          width: 160px;
+          height: 40px;
+          background-color: rgb(206, 162, 162);
+          border: none;
+          border-radius: 3px;
+          bottom: 120px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 1rem;
+          text-align: center;
+          transition: 0.7s ease-in-out;
+          opacity: 0;
+      }
+      .choiceColor{
+          position: fixed;
+          list-style: none;
+          padding: 0;
+          width: 180px;
+          height: 60px;
+          background-color: #fff;
+          border-radius: 5px;
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
+          bottom: 150px;
+          left: 50%;
+          transform: translateX(-50%);
+          transition: 0.7s ease-in-out;
+          opacity: 0;
+      }
+      ul.choiceColor li{
+          width: 50px;
+          height: 50px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      .yellow{
+          background-color: rgb(240, 225, 145);
+      }
+      .yellowMoon{
+        animation: yellowMoon 20s infinite alternate linear;
+      }
+      .blue{
+          background-color: rgb(145, 216, 200);
+      }
+      .blueMoon{
+         animation: blueMoon 20s infinite alternate linear;
+      }
+      .gray{
+          background-color: rgb(173, 153, 153);
+      }
+      .grayMoon{
+         animation: grayMoon 20s infinite alternate linear;
+      }
+
+      /* add */
+      .gogo{
+          transform: translateX(-100%);
+      }
+      .close60{
+        transform: translateY(60px);
+      }
+      .down{
+          display: none;
+      }
+      .displayNone{
+          display: none;
+      }
+      .animateSpeak{
+          animation: animateSpeak 0.8s 1  ease-in-out;
+      }
+      .appear{
+          opacity: 1;
+      }
+      .active{
+          border: 1px rgb(177, 42, 42) solid;
+      }
+  
+
+
+      /* 動畫 */
+      @keyframes fog{
+          0%{
+            transform: rotate(0deg);
+            border-radius: 40% 20% 30% 20%;
+            box-shadow: inset 20px 20px 10px rgb(218, 88, 88) ,-50px 30px 40px pink,inset 20px -50px 30px rgb(126, 64, 184);
+          }
+          30%{
+            border-radius: 30% 40% 20% 30%;
+            box-shadow: inset 10px -20px 50px rgb(219, 219, 52) ,30px 40px 20px rgb(117, 117, 117),inset 20px -50px 30px orange;  
+          }
+          70%{
+            border-radius: 50%;
+            box-shadow: inset 20px 20px 30px rgb(47, 47, 161) , -50px 30px 40px pink,inset 20px -50px 30px rgb(255, 255, 255);  
+          }
+          100%{
+            transform: rotate(360deg);
+            border-radius: 30% 25% 20% 50%;
+            box-shadow: inset 30px 10px 20px rgb(163, 28, 28) ,-50px 30px 40px rgb(62, 146, 185),inset 20px -50px 30px rgb(187, 132, 238);   
+          }
+      }
+      @keyframes blueMoon{
+          0%{
+              transform: translateX(-50%) rotate(0deg) scale(0.8);
+              box-shadow: inset 50px 40px 20px rgb(109, 212, 216);
+          }
+          100%{
+              transform: translateX(-50%) rotate(720deg) scale(1.2);
+              box-shadow: inset 50px 40px 20px rgb(13, 85, 107);
+          }
+      }
+      @keyframes yellowMoon{
+          0%{
+              transform: translateX(-50%) rotate(0deg) scale(0.8);
+              box-shadow: inset 50px 40px 20px rgb(255, 217, 0);
+          }
+          100%{
+              transform: translateX(-50%) rotate(-720deg) scale(1.2);
+              box-shadow: inset 50px 40px 20px rgb(195, 195, 191);
+          }
+      }
+      @keyframes grayMoon{
+          0%{
+              transform: translateX(-50%) rotate(0deg) scale(0.8);
+              box-shadow: inset 50px 40px 20px rgb(255, 255, 255);
+          }
+          100%{
+              transform: translateX(-50%) rotate(720deg) scale(1.2);
+              box-shadow: inset 50px 40px 20px rgb(105, 105, 105);
+          }
+      }
+      @keyframes star{
+          0%{
+              opacity: 1;
+              transform: scale(1);
+          }
+          50%{
+              opacity: 0.2;
+          }
+          100%{
+              opacity: 1;
+              transform: scale(1.3);
+          }
+      }
+      @keyframes around{
+          0%{
+              transform: rotate(0deg);
+              box-shadow:inset 0px 0px 100px rgba(255, 255, 255, 0.5);
+          }
+          50%{
+              box-shadow:inset 0px 0px 100px rgba(129, 129, 129, 0.6);
+          }
+          100%{
+              transform: rotate(360deg);
+              box-shadow:inset 0px 0px 100px rgba(255, 255, 255, 0.5);       
+          }
+      }
+      @keyframes around2{
+          0%{
+              transform: rotate(0deg);
+          }
+          100%{
+              transform: rotate(360deg);
+          }
+      }
+      @keyframes around3{
+          0%{
+              transform: rotate(0deg) scale(1);
+          }
+          50%{
+              transform: rotate(-360deg) scale(1.3);
+          }
+          100%{
+              transform: rotate(-720deg) scale(1);
+          }
+      }
+      @keyframes cloud{
+          0%{
+              opacity: 0;
+              transform: translateX(-500px);
+          }
+          60%{
+              opacity: 1;
+          }
+          100%{
+              opacity: 0;
+              transform: translateX(1920px);
+          }
+      }
+      @keyframes man{
+          0%{
+              transform: scale(1) translate(0) skew(0) rotate(0);
+          }
+          20%{
+              transform: scale(1.1) translate(12%, 12%) skew(5deg) rotate(-5deg);
+          }
+          40%{
+              transform: scale(1) translate(-3%, -3%) skew(-3deg) rotate(5deg);
+          }
+          70%{
+              transform: scale(1.2) translate(15%, 15%) skew(4deg) rotate(-5deg);
+          }
+          100%{
+              transform: scale(1) translate(0) skew(0) rotate(0);
+          }
+      }
+      @keyframes space{
+          0%{
+            background-position-y: 0%;
+          }
+          100%{
+            background-position-y: 100%;
+          }
+      }
+      @keyframes animateSpeak{
+          0%{
+              opacity: 0;
+              transform: rotateZ(30deg);
+          }
+          50%{
+              transform: rotateZ(-10deg) translateX(10%);
+          }
+          90%{
+              transform: rotateZ(0deg) translateX(-5%);
+          }
+          100%{
+              opacity: 1;
+              transform: rotateZ(0deg) translateX(0);
+          }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="fog"></div>
+        <div class="stars">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
+        <div class="layer3">
+            <div class="moon blueMoon"></div>
+            <div class="planet bluePlanet"><img src="./img/X.png" alt=""></div>
+        </div>
+        <div class="layer4">
+            <div class="cloud"><img src="./img/cloud1.png" alt=""></div>
+            <div class="cloud"><img src="./img/cloud2.png" alt=""></div>
+            <div class="cloud"><img src="./img/cloud3.png" alt=""></div>
+            <div class="cloud"><img src="./img/cloud4.png" alt=""></div>
+            <div class="cloud"><img src="./img/cloud5.png" alt=""></div>
+        </div>
+        <div class="layer5">
+            <div class="planet bigPlanet"><img src="./img/big.png" alt=""></div>
+            <div class="planet redPlanet"><img src="./img/Y.png" alt=""></div>
+            <div class="planet pinkPlanet"><img src="./img/Z.png" alt=""></div>
+        </div>
+        <div class="layer6">
+            <div class="cloud"><img src="./img/cloud1.png" alt=""></div>
+            <div class="cloud2 gogo"><img src="./img/cloud2.png" alt=""></div>
+            <div class="cloud2 gogo"><img src="./img/cloud3.png" alt=""></div>
+            <div class="cloud2 gogo"><img src="./img/cloud4.png" alt=""></div>
+            <div class="cloud2 gogo"><img src="./img/cloud5.png" alt=""></div>
+        </div>
+        <div class="layer7">
+            <div class="man"><img src="./img/man.png" alt=""></div>
+            <div class="speak displayNone">翁翁感謝你!</div>
+        </div>
+        <div class="layer8  close60">
+            <div class="open">
+                <div class="top">
+                    <svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                  </svg>
+                </div>
+                <div class="down">
+                    <svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                      </svg>
+                </div>
+                
+            </div>
+            <ul class="bar">
+                <li class="wind">
+                    <svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-cloud" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+                      </svg>
+                </li>
+                <li class="moonColor">
+                    <svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-moon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M14.53 10.53a7 7 0 0 1-9.058-9.058A7.003 7.003 0 0 0 8 15a7.002 7.002 0 0 0 6.53-4.47z"/>
+                      </svg>
+                </li>
+                <li class="pen">
+                    <svg width="35px" height="35px" viewBox="0 0 16 16" class="bi bi-pen" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                      </svg>       
+                </li>
+            </ul>
+            <input type="text" class="inputText" maxlength="8" placeholder="僅限8字">
+            <ul class="choiceColor">
+                <li class="yellow"></li>
+                <li class="blue"></li>
+                <li class="gray"></li>
+            </ul>
+        </div>
+
+    </div>
+
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        // 30顆星隨機放
+        let star = $('.star');
+
+        for(i=0;i<star.length;i++){
+            let long = rand(1,10);
+            let light = rand(150,255);
+            star.eq(i).css({
+               'width': long,
+               'height': long,
+               'backgroundColor': 'rgb(255,255,'+light+')',
+               'boxShadow': `0px 0px ${rand(1,50)}px rgb(255,255,${light}) `,
+               'top': rand(1,70)+'%',
+               'left': rand(5,90)+'%',
+               'animation': `star ${rand(1,60)}s infinite alternate`            
+            })
+        }
+        // 雲
+        let cloud = $('.cloud');
+        for(i=0;i<cloud.length;i++){
+            cloud.eq(i).css({
+             'top': rand(5,90)+'%',
+             'animation': `cloud ${rand(10,60)}s infinite`            
+            })
+        }
+        // 點擊放雲
+        let cloud2 = $('.cloud2');
+        $('.wind').click(function(){
+            for(i=0;i<cloud2.length;i++){
+            cloud2.eq(i).css({
+             'top': rand(5,90)+'%',
+             'animation': `cloud ${rand(10,30)}s`            
+            })
+        }
+        })
+
+        // 移除style
+        $('.cloud2').on('animationend',function(e){
+            for(i=0;i<cloud2.length;i++){
+            cloud2.eq(i).removeAttr('style');
+        }
+        })
+
+        // open bar
+        $('.open').click(function(){
+         $('.layer8').toggleClass('close60');
+         $('.top').toggle();
+         $('.down').toggle();
+        })
+
+        // man Talk
+        $('.man').click(function(){
+            $('.speak').toggle().addClass('animateSpeak');
+        })
+        // 
+        $('.speak').on('animationend',function(e){
+           $(this).removeClass('animateSpeak');
+        })
+
+        // pen
+        $('.pen').click(function(e){
+            $('.inputText').toggleClass('appear');
+        })
+        // 
+        $('.inputText').change(function(){
+            let text = $('.inputText').val();
+            if(text==''){
+                text='......'
+            }
+            $('.speak').text(text);
+            $('.speak').show().addClass('animateSpeak');
+        })
+        // 
+        $('.down').click(function(){
+            $('.inputText').removeClass('appear');
+            $('.choiceColor').removeClass('appear');
+        })
+        // moonColor
+        $('.moonColor').click(function(){
+            $('.choiceColor').toggleClass('appear');
+        })
+        // choiceColor
+        $('.choiceColor li').click(function(){
+            let color = $(this).attr('class');
+            let animate = color+'Moon';
+            $(this).addClass('active').siblings().removeClass('active');
+            $('.moon').removeClass('yellow blue gray yellowMoon grayMoon blueMoon').addClass(color).addClass(animate);
+            console.log(animate);
+        })
+
+
+
+
+        // function
+        // 隨機範圍
+        function rand(start,end){    
+            let random = Math.floor(Math.random()*end)+1
+            while(random<start){
+                random = Math.floor(Math.random()*end)+1
+            }
+            return random
+        };
+
+    </script>
+  </body>
+</html>
