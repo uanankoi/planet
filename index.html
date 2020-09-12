@@ -1,18 +1,21 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title>space</title>
+    <!-- icon -->
+    <link rel="icon" href="./img/icon.png" type="image/x-icon">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
     <style>
       body{
           width: 100vw;
           height: 100vh;
-          background-image: linear-gradient(blue,pink);
+          background-image: linear-gradient(#5E8275,#E97373);
           background-size: 200% 200%;
           animation: space 10s infinite alternate;
           /* background-position-y: 100%; */
@@ -33,7 +36,7 @@
           background-color: rgb(44, 56, 160);
           animation: fog 10s infinite alternate ease-in-out;
       }
-      .stars, .layer3, .layer4, .layer5, .layer6, .layer7{
+      .stars, .layer3, .layer4, .layer5, .layer6, .layer7, .rain{
           width: 100%;
           height: 100%;
           position: absolute;
@@ -46,17 +49,12 @@
       }
       .moon{
           position: absolute;
-          width: 25vw;
-          height: 25vw;
+          width: 20vw;
+          height: 20vw;
           background-color: rgb(255, 255, 255);
-          /* background-color: rgb(145, 216, 200); */
-          /* background-color: rgb(173, 153, 153); */
-          /* background-color: rgb(240, 225, 145); */
           border-radius: 50%;
-          /* box-shadow: inset 50px 40px 20px rgb(255, 217, 0); */
-          top: 20%;
+          top: 0%;
           left: 50%;
-          /* animation: moon 20s infinite alternate linear; */
       }
       .planet, .cloud{
           position: absolute;
@@ -68,12 +66,12 @@
           border-radius: 40%;
       }
       .bigPlanet{
-          top: 50vh;
-          left: 0%;
-          animation: around2 30s infinite linear;
+          top: 30vh;
+          left: -25%;
+          /* animation: around2 30s infinite linear; */
       }
       .bigPlanet img{
-          width: 100vw;
+          width: 150vw;
       }
       .redPlanet{
           top: 50%;
@@ -105,14 +103,17 @@
           bottom: 20%;
           right: 15%;
       }
+      /* 選單 */
       .layer8{
-          width: 100%;
-          height: 120px;
+          width: 300px;
+          height: 180px;
+          border-radius: 50% 50%;
           position: absolute;
           bottom: 0;
-          left: 0;
+          left: 50%;
+          transform: translateX(-50%);
           /* background-color: #fff; */
-          transition: 1s ease-in-out;
+          transition: 1s ease-in-out;         
       }
       .open{
           width: 40px;
@@ -122,11 +123,11 @@
           cursor: pointer;
       }
       ul.bar{
-          width: 200px;
-          height: 50px;
+          width: 250px;
+          height: 150px;
           padding: 0;
-          /* background-color: rgb(238, 238, 238); */
-          border-radius: 3px;
+          background-color: rgb(238, 238, 238);
+          border-radius: 50% 50% 0 0;
           list-style: none;
           display: flex;
           justify-content: space-evenly;
@@ -178,6 +179,49 @@
           border-radius: 5px;
           cursor: pointer;
       }
+      /*  */
+      .shootingStar{
+          position: absolute;
+          background-color: rgb(216, 218, 152);
+          border-radius: 50%;
+          opacity: 0;
+      }
+      @keyframes rain{
+          0%{
+              opacity: 0;
+              transform: translate(600px,0);
+          }
+          70%{
+              opacity: 1;
+          }
+          100%{
+              opacity: 0;
+              transform: translate(0,600px);
+          }
+      }
+
+      /* add */
+      .gogo{
+          transform: translateX(-100%);
+      }
+      .close60{
+        /* transform: translateY(60px) translateX(-50%); */
+      }
+      .down{
+          display: none;
+      }
+      .displayNone{
+          display: none;
+      }
+      .animateSpeak{
+          animation: animateSpeak 0.8s 1  ease-in-out;
+      }
+      .appear{
+          opacity: 1;
+      }
+      .active{
+          border: 2px rgb(177, 42, 42) solid;
+      }
       .yellow{
           background-color: rgb(240, 225, 145);
       }
@@ -196,31 +240,6 @@
       .grayMoon{
          animation: grayMoon 20s infinite alternate linear;
       }
-
-      /* add */
-      .gogo{
-          transform: translateX(-100%);
-      }
-      .close60{
-        transform: translateY(60px);
-      }
-      .down{
-          display: none;
-      }
-      .displayNone{
-          display: none;
-      }
-      .animateSpeak{
-          animation: animateSpeak 0.8s 1  ease-in-out;
-      }
-      .appear{
-          opacity: 1;
-      }
-      .active{
-          border: 1px rgb(177, 42, 42) solid;
-      }
-  
-
 
       /* 動畫 */
       @keyframes fog{
@@ -246,21 +265,21 @@
       @keyframes blueMoon{
           0%{
               transform: translateX(-50%) rotate(0deg) scale(0.8);
-              box-shadow: inset 50px 40px 20px rgb(109, 212, 216);
+              box-shadow: inset 3vw 3vw 3vw rgb(109, 212, 216);
           }
           100%{
               transform: translateX(-50%) rotate(720deg) scale(1.2);
-              box-shadow: inset 50px 40px 20px rgb(13, 85, 107);
+              box-shadow: inset 3vw 3vw 3vw rgb(13, 85, 107);
           }
       }
       @keyframes yellowMoon{
           0%{
               transform: translateX(-50%) rotate(0deg) scale(0.8);
-              box-shadow: inset 50px 40px 20px rgb(255, 217, 0);
+              box-shadow: inset 2vw 2vw 2vw rgb(255, 217, 0);
           }
           100%{
               transform: translateX(-50%) rotate(-720deg) scale(1.2);
-              box-shadow: inset 50px 40px 20px rgb(195, 195, 191);
+              box-shadow: inset 2vw 2vw 2vw rgb(195, 195, 191);
           }
       }
       @keyframes grayMoon{
@@ -408,6 +427,26 @@
             <div class="star"></div>
             <div class="star"></div>
             <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
         </div>
         <div class="layer3">
             <div class="moon blueMoon"></div>
@@ -436,6 +475,30 @@
             <div class="man"><img src="./img/man.png" alt=""></div>
             <div class="speak displayNone">翁翁感謝你!</div>
         </div>
+        <!-- meteor -->
+        <div class="rain">
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+        </div>
+        <!-- 選單 -->
         <div class="layer8  close60">
             <div class="open">
                 <div class="top">
@@ -466,6 +529,11 @@
                         <path fill-rule="evenodd" d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
                       </svg>       
                 </li>
+                <li class="meteor">
+                    <svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                      </svg>
+                </li>
             </ul>
             <input type="text" class="inputText" maxlength="8" placeholder="僅限8字">
             <ul class="choiceColor">
@@ -474,7 +542,7 @@
                 <li class="gray"></li>
             </ul>
         </div>
-
+        
     </div>
 
       
@@ -485,7 +553,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <script>
-        // 30顆星隨機放
+        // 50顆星隨機放置
         let star = $('.star');
 
         for(i=0;i<star.length;i++){
@@ -496,58 +564,62 @@
                'height': long,
                'backgroundColor': 'rgb(255,255,'+light+')',
                'boxShadow': `0px 0px ${rand(1,50)}px rgb(255,255,${light}) `,
-               'top': rand(1,70)+'%',
-               'left': rand(5,90)+'%',
+               'top': rand(1,80)+'%',
+               'left': rand(1,90)+'%',
                'animation': `star ${rand(1,60)}s infinite alternate`            
-            })
+            });
         }
-        // 雲
+
+        // 底層雲飄
         let cloud = $('.cloud');
         for(i=0;i<cloud.length;i++){
             cloud.eq(i).css({
              'top': rand(5,90)+'%',
              'animation': `cloud ${rand(10,60)}s infinite`            
-            })
+            });
         }
-        // 點擊放雲
+
+        // 點擊雲 上層雲飄動動畫
         let cloud2 = $('.cloud2');
         $('.wind').click(function(){
             for(i=0;i<cloud2.length;i++){
             cloud2.eq(i).css({
              'top': rand(5,90)+'%',
              'animation': `cloud ${rand(10,30)}s`            
-            })
+            });
         }
         })
 
-        // 移除style
+        // 上層雲飄動動畫完成移除style
         $('.cloud2').on('animationend',function(e){
             for(i=0;i<cloud2.length;i++){
             cloud2.eq(i).removeAttr('style');
         }
         })
 
-        // open bar
+        // 選單open bar
         $('.open').click(function(){
          $('.layer8').toggleClass('close60');
          $('.top').toggle();
          $('.down').toggle();
         })
 
-        // man Talk
+        // 點擊太空人speak顯現和淡出
         $('.man').click(function(){
             $('.speak').toggle().addClass('animateSpeak');
         })
-        // 
+
+        // speak動畫完成移除class
         $('.speak').on('animationend',function(e){
            $(this).removeClass('animateSpeak');
         })
 
-        // pen
+        // pen點及輸入框顯現和淡出
         $('.pen').click(function(e){
             $('.inputText').toggleClass('appear');
         })
-        // 
+
+        // 輸入內容更換speak
         $('.inputText').change(function(){
             let text = $('.inputText').val();
             if(text==''){
@@ -556,22 +628,73 @@
             $('.speak').text(text);
             $('.speak').show().addClass('animateSpeak');
         })
-        // 
+
+        // 下拉icon 選單淡出
         $('.down').click(function(){
             $('.inputText').removeClass('appear');
             $('.choiceColor').removeClass('appear');
         })
-        // moonColor
+
+        // moonColor點擊色票顯現淡出
         $('.moonColor').click(function(){
             $('.choiceColor').toggleClass('appear');
         })
-        // choiceColor
+
+        // choiceColor選色更換moon的class
         $('.choiceColor li').click(function(){
             let color = $(this).attr('class');
             let animate = color+'Moon';
             $(this).addClass('active').siblings().removeClass('active');
             $('.moon').removeClass('yellow blue gray yellowMoon grayMoon blueMoon').addClass(color).addClass(animate);
             console.log(animate);
+        })
+
+        // stars星空圖層互動
+        $(window).mousemove(function(e){
+        // console.log(e.clientX+'****'+e.clientY+'....'+e.pageY)
+        console.log(document.body.offsetWidth)
+        // console.log(client.height)
+        let dotX = document.body.offsetWidth/2;
+        let dotY = document.body.offsetHeight/2;
+        let moveX = (e.clientX-dotX)/70;
+        let moveX1 = (e.clientX-dotX)/5;
+        let moveY = (e.clientY-dotY)/70;
+        let moveY1 = (e.clientY-dotY)/5;
+        if(e.clientX<dotX){
+            // $('.layer3').css({'left':-moveX+'px'})
+            $('.stars').css({'left':-moveX1+'px'})
+        }else if(e.clientX>dotX){
+            // $('.layer3').css({'left':-moveX+'px'})
+            $('.stars').css({'left':-moveX1+'px'})
+        }
+        if(e.clientY<dotY){
+            // $('.layer3').css({'top':-moveY+'px'})
+            $('.stars').css({'top':-moveY1+'px'})
+        }else if(e.clientY>dotY){
+            // $('.layer3').css({'top':-moveY+'px'})
+            $('.stars').css({'top':-moveY1+'px'})
+        }
+        });
+
+        // meteor
+        $('.meteor').click(function(){
+           let shootingStar = $('.shootingStar');
+           
+           for(i=0;i<shootingStar.length;i++){
+            let long = rand(1,20);
+            shootingStar.eq(i).css({
+             'top': rand(0,50)+'%',
+             'left':rand(0,50)+'%',
+             'width': long,
+             'height': long,
+             'animation': `rain ${rand(2,4)}s 0.${i}s`            
+            });
+        }
+        })
+
+        // meteor動畫完成移除style
+        $('.shootingStar').on('animationend',function(e){
+           $(this).removeAttr('style');
         })
 
 
