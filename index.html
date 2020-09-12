@@ -27,22 +27,18 @@
           /* background-color: rgb(59, 46, 46); */
           overflow: hidden;
       }
-      .fog{
-          width: 500px;
-          height: 500px;
-          position: absolute;
-          top: -20%;
-          left: 75%;
-          background-color: rgb(44, 56, 160);
-          animation: fog 10s infinite alternate ease-in-out;
-      }
-      .stars, .layer3, .layer4, .layer5, .layer6, .layer7, .rain{
+      .fog, .stars, .layer3, .layer4, .layer5, .layer6, .layer7, .rain{
           width: 100%;
           height: 100%;
           position: absolute;
           top: 0;
           left: 0;
       }
+      .fog1, .fog2{
+          position: absolute;
+          top: -140%;
+          left: 50%;
+      } 
       .star{
           position: absolute;
           border-radius: 50%;
@@ -73,15 +69,16 @@
       .bigPlanet img{
           width: 150vw;
       }
-      .redPlanet{
+      .redPlanet, .stone{
           top: 50%;
           left: 70%;
           animation: around2 50s infinite linear;
       }
       .pinkPlanet{
           top: 50%;
-          left: -15%;
+          left: -180px;
           animation: around3 10s infinite ease-in-out;
+          transition: 0.5s ease-in-out;
       }
       .man{
           position: absolute;
@@ -148,13 +145,14 @@
           background-color: rgb(206, 162, 162);
           border: none;
           border-radius: 3px;
-          bottom: 120px;
+          bottom: 90px;
           left: 50%;
           transform: translateX(-50%);
           font-size: 1rem;
           text-align: center;
           transition: 0.7s ease-in-out;
           opacity: 0;
+          pointer-events: none;     
       }
       .choiceColor{
           position: fixed;
@@ -172,6 +170,7 @@
           transform: translateX(-50%);
           transition: 0.7s ease-in-out;
           opacity: 0;
+          pointer-events: none;
       }
       ul.choiceColor li{
           width: 50px;
@@ -202,10 +201,11 @@
 
       /* add */
       .gogo{
-          transform: translateX(-100%);
+          transform: translateX(-120%);
+          opacity: 0;
       }
-      .close60{
-        /* transform: translateY(60px) translateX(-50%); */
+      .close120{
+        transform: translateY(120px) translateX(-50%);
       }
       .down{
           display: none;
@@ -218,6 +218,7 @@
       }
       .appear{
           opacity: 1;
+          pointer-events: all;
       }
       .active{
           border: 2px rgb(177, 42, 42) solid;
@@ -240,26 +241,28 @@
       .grayMoon{
          animation: grayMoon 20s infinite alternate linear;
       }
+      .fog1Animate{
+          animation: fog1 10s infinite alternate ease-in-out;
+      }
+      .fog2Animate{
+          animation: fog2 10s infinite alternate linear;
+      }  
 
       /* 動畫 */
-      @keyframes fog{
+      @keyframes fog1{
           0%{
-            transform: rotate(0deg);
-            border-radius: 40% 20% 30% 20%;
-            box-shadow: inset 20px 20px 10px rgb(218, 88, 88) ,-50px 30px 40px pink,inset 20px -50px 30px rgb(126, 64, 184);
-          }
-          30%{
-            border-radius: 30% 40% 20% 30%;
-            box-shadow: inset 10px -20px 50px rgb(219, 219, 52) ,30px 40px 20px rgb(117, 117, 117),inset 20px -50px 30px orange;  
-          }
-          70%{
-            border-radius: 50%;
-            box-shadow: inset 20px 20px 30px rgb(47, 47, 161) , -50px 30px 40px pink,inset 20px -50px 30px rgb(255, 255, 255);  
+              transform: scale(0.8) rotate(10deg) skew(-10deg);
           }
           100%{
-            transform: rotate(360deg);
-            border-radius: 30% 25% 20% 50%;
-            box-shadow: inset 30px 10px 20px rgb(163, 28, 28) ,-50px 30px 40px rgb(62, 146, 185),inset 20px -50px 30px rgb(187, 132, 238);   
+              transform: scale(1.2) rotate(-10deg) skew(10deg);
+          }
+      }
+      @keyframes fog2{
+          0%{
+              transform: rotate(0deg) skew(-5deg);
+          }
+          100%{
+              transform: rotate(-360deg) skew(5deg);
           }
       }
       @keyframes blueMoon{
@@ -391,11 +394,84 @@
               transform: rotateZ(0deg) translateX(0);
           }
       }
+      /* 1200px以下 */
+      @media (max-width: 1200px){
+        .bluePlanet img{
+          width: 25vw;
+        }
+        .pinkPlanet img{
+          width: 30vw;
+        }
+
+      }
+      /* 992px以下 */
+      @media (max-width: 992px){
+        .moon{
+          top: 10%;
+        }
+        .bluePlanet{
+          left: -10%;
+        }
+        .bluePlanet img{
+          width: 30vw;
+        }
+        .redPlanet, .stone{
+          top: 40%;
+        }
+        .pinkPlanet{
+          left: -30%;
+        }
+        .pinkPlanet img{
+          width: 40vw;
+      }
+
+      }
+       /* 768px以下 */
+       @media (max-width: 768px){
+        .fog1, .fog2{
+          top: -120%;
+          left: 30%;
+        } 
+        .moon{
+          top: 20%;
+          width: 30vw;
+          height: 30vw;
+        }
+        .bluePlanet{
+          top: -10%;
+        }
+        .bigPlanet{
+          top: 50vh;
+          left: -50%;
+          /* animation: around2 30s infinite linear; */
+        }
+        .bigPlanet img{
+          width: 200vw;
+        }
+        .redPlanet img, .stone img{
+          width: 15vw;
+        }
+        .man img{
+          transform: rotate(-90deg) scale(0.7) translateY(150px);
+        }
+
+      }
+
+      /* 576px以下 */
+      @media (max-width: 576px){
+        /* .fog1, .fog2{
+          top: -120%;
+          left: 25%;
+        }  */
+      }
     </style>
   </head>
   <body>
     <div class="container-fluid">
-        <div class="fog"></div>
+        <div class="fog">
+            <div class="fog1 fog1Animate"><img src="./img/fog1.png" alt=""></div>
+            <div class="fog2 fog2Animate"><img src="./img/fog2.png" alt=""></div>
+        </div>
         <div class="stars">
             <div class="star"></div>
             <div class="star"></div>
@@ -463,6 +539,7 @@
             <div class="planet bigPlanet"><img src="./img/big.png" alt=""></div>
             <div class="planet redPlanet"><img src="./img/Y.png" alt=""></div>
             <div class="planet pinkPlanet"><img src="./img/Z.png" alt=""></div>
+            <div class="planet stone"><img src="./img/stone.png" alt=""></div>
         </div>
         <div class="layer6">
             <div class="cloud"><img src="./img/cloud1.png" alt=""></div>
@@ -470,10 +547,6 @@
             <div class="cloud2 gogo"><img src="./img/cloud3.png" alt=""></div>
             <div class="cloud2 gogo"><img src="./img/cloud4.png" alt=""></div>
             <div class="cloud2 gogo"><img src="./img/cloud5.png" alt=""></div>
-        </div>
-        <div class="layer7">
-            <div class="man"><img src="./img/man.png" alt=""></div>
-            <div class="speak displayNone">翁翁感謝你!</div>
         </div>
         <!-- meteor -->
         <div class="rain">
@@ -498,8 +571,12 @@
             <div class="shootingStar"></div>
             <div class="shootingStar"></div>
         </div>
+        <div class="layer7">
+            <div class="man"><img src="./img/man.png" alt=""></div>
+            <div class="speak displayNone">HEllO~~</div>
+        </div>
         <!-- 選單 -->
-        <div class="layer8  close60">
+        <div class="layer8  close120">
             <div class="open">
                 <div class="top">
                     <svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -537,9 +614,9 @@
             </ul>
             <input type="text" class="inputText" maxlength="8" placeholder="僅限8字">
             <ul class="choiceColor">
-                <li class="yellow"></li>
-                <li class="blue"></li>
-                <li class="gray"></li>
+                <li class="yellow" data-color="yellow"></li>
+                <li class="blue" data-color="blue"></li>
+                <li class="gray" data-color="gray"></li>
             </ul>
         </div>
         
@@ -599,7 +676,7 @@
 
         // 選單open bar
         $('.open').click(function(){
-         $('.layer8').toggleClass('close60');
+         $('.layer8').toggleClass('close120');
          $('.top').toggle();
          $('.down').toggle();
         })
@@ -642,41 +719,35 @@
 
         // choiceColor選色更換moon的class
         $('.choiceColor li').click(function(){
-            let color = $(this).attr('class');
+            let color = $(this).attr('data-color');
             let animate = color+'Moon';
             $(this).addClass('active').siblings().removeClass('active');
             $('.moon').removeClass('yellow blue gray yellowMoon grayMoon blueMoon').addClass(color).addClass(animate);
-            console.log(animate);
+            // console.log(animate);
         })
 
         // stars星空圖層互動
         $(window).mousemove(function(e){
-        // console.log(e.clientX+'****'+e.clientY+'....'+e.pageY)
-        console.log(document.body.offsetWidth)
-        // console.log(client.height)
+        // 找中心點
         let dotX = document.body.offsetWidth/2;
         let dotY = document.body.offsetHeight/2;
-        let moveX = (e.clientX-dotX)/70;
-        let moveX1 = (e.clientX-dotX)/5;
-        let moveY = (e.clientY-dotY)/70;
-        let moveY1 = (e.clientY-dotY)/5;
+        // 滑鼠位置
+        let moveX = (e.clientX-dotX)/30;
+        let moveY = (e.clientY-dotY)/30;
+        // 圖層移動
         if(e.clientX<dotX){
-            // $('.layer3').css({'left':-moveX+'px'})
-            $('.stars').css({'left':-moveX1+'px'})
+            $('.stars').css({'left':-moveX+'px'})
         }else if(e.clientX>dotX){
-            // $('.layer3').css({'left':-moveX+'px'})
-            $('.stars').css({'left':-moveX1+'px'})
+            $('.stars').css({'left':-moveX+'px'})
         }
         if(e.clientY<dotY){
-            // $('.layer3').css({'top':-moveY+'px'})
-            $('.stars').css({'top':-moveY1+'px'})
+            $('.stars').css({'top':-moveY+'px'})
         }else if(e.clientY>dotY){
-            // $('.layer3').css({'top':-moveY+'px'})
-            $('.stars').css({'top':-moveY1+'px'})
+            $('.stars').css({'top':-moveY+'px'})
         }
         });
 
-        // meteor
+        // 點擊meteor流星雨20顆動畫
         $('.meteor').click(function(){
            let shootingStar = $('.shootingStar');
            
@@ -692,12 +763,10 @@
         }
         })
 
-        // meteor動畫完成移除style
+        // 流星雨動畫完成移除style
         $('.shootingStar').on('animationend',function(e){
            $(this).removeAttr('style');
         })
-
-
 
 
         // function
