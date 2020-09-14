@@ -27,7 +27,7 @@
           /* background-color: rgb(59, 46, 46); */
           overflow: hidden;
       }
-      .fog, .stars, .layer3, .layer4, .layer5, .layer6, .layer7, .rain, .loading{
+      .fog, .stars, .layer3, .layer4, .layer5, .layer6, .layer7, .rain, .loading, .notice{
           width: 100%;
           height: 100%;
           position: absolute;
@@ -181,9 +181,58 @@
       /* 流星雨 */
       .shootingStar{
           position: absolute;
-          background-color: rgb(216, 218, 152);
+          background-color: rgb(226, 253, 136);
           border-radius: 50%;
           opacity: 0;
+      }
+      /* notice */
+      .noticeBack{
+          background-color: rgba(0, 0, 0, 0.7);
+      }
+      .noticeCard{
+          background-size: 200% 200%;
+          background-image: linear-gradient(60deg,#555555,#0B4863);
+          width: 300px;
+          height: 50vh;
+          margin: 25vh auto;
+          padding: 5px 0;
+          border-radius: 10px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          color: white;
+      }
+      .request{
+          width: 300px;
+          height: 150px;
+          font-size: 1.3rem;
+          background-color: rgb(243, 126, 126);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          clip-path: polygon(71% 0, 54% 21%, 14% 9%, 4% 65%, 15% 96%, 87% 83%, 94% 33%, 64% 25%);
+      }
+      .choiceButtons{
+          width: 100%;
+          display: flex;
+          justify-content: space-evenly;
+      }
+      .choiceButtons a{
+          width: 100px;
+          height: 30px;
+          text-decoration: none;
+          display: block;
+          padding: 8px 10px;
+          border-radius: 5px;
+          text-align: center;
+          color: white;
+      }
+      .pink{
+          background-color: rgb(238, 159, 159);
+      }
+      .green{
+          background-color: rgb(74, 170, 138);
       }
       /* loading頁面 */
       .spaceBack{
@@ -462,14 +511,14 @@
       @keyframes rain{
           0%{
               opacity: 0;
-              transform: translate(600px,0);
+              transform: translate(200px,0);
           }
           70%{
               opacity: 1;
           }
           100%{
               opacity: 0;
-              transform: translate(0,600px);
+              transform: translate(0,400px);
           }
       }
 
@@ -648,6 +697,16 @@
             <div class="shootingStar"></div>
             <div class="shootingStar"></div>
             <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
+            <div class="shootingStar"></div>
         </div>
         <div class="layer7">
             <div class="man"><img src="./img/man.png" alt=""></div>
@@ -697,7 +756,18 @@
                 <li class="gray" data-color="gray"></li>
             </ul>
         </div>
-        
+        <!-- notice詢問 -->
+        <div class="notice noticeBack byebye">
+            <div class="noticeCard">
+                <div class="spaceMan"><img src="./img/UFO.png" alt=""></div>
+                <div class="request">請求開啟<br>deviceorientation資訊</div>
+                <div class="choiceButtons">
+                    <a href="####" class="pink" onclick="requestOrientationPermission();">同意</a>
+                    <a href="####" class="green" onclick="cancelOrientationPermission();">不同意</a>
+                </div>
+            </div>
+
+        </div>
         <!-- loading頁面 -->
         <div class="loading spaceBack">
            <div class="loadCard">
@@ -720,7 +790,60 @@
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 
     <script>
+        // 判斷裝置
+        const u = navigator.userAgent,
+              //android裝置
+              isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1,
+              //ios裝置 
+              isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        
+        let notice = document.querySelector('.notice');
         // 
+        if(isAndroid){
+            if(window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', function(event) {
+                    let     alpha = event.alpha,
+                            beta = event.beta,
+                            gamma = event.gamma;
+                    $('.stars').css({'left':gamma+'px'});
+                    $('.stars').css({'top':beta+'px'});
+                }, false);
+            }
+        }else if(isiOS){    
+            notice.classList.remove('byebye');
+        // 同意Orientation開啟
+        function requestOrientationPermission(){
+            DeviceOrientationEvent.requestPermission()
+            .then(response => {
+                if (response == 'granted') {
+                    notice.style.display='none'
+                    window.addEventListener('deviceorientation', (e) => {                              
+                        let     alpha = event.alpha,
+                                beta = event.beta,
+                                gamma = event.gamma;
+                        $('.stars').css({'left':gamma+'px'});
+                        $('.stars').css({'top':beta+'px'});
+                        })
+                }
+            })
+            .catch(console.error)
+        }
+        }else{
+            window.addEventListener('mousemove',function(e){
+                // 找中心點和位移量
+                let dotX = document.body.offsetWidth/2,
+                    dotY = document.body.offsetHeight/2,
+                    moveX = (e.clientX-dotX)/30,
+                    moveY = (e.clientY-dotY)/30;       
+                    $('.stars').css({'left':-moveX+'px'});
+                    $('.stars').css({'top':-moveY+'px'});        
+            })
+        }
+        
+        // 不同意Orientation關掉詢問視窗
+        function cancelOrientationPermission(){
+            notice.style.display='none'
+        } 
         //loading動畫，計算圖片載入
         // 引 imagesLoad套件 方法
         let   imgLoad = imagesLoaded('body'),
@@ -755,9 +878,6 @@
                 current=100
             }
         }
-
-        // 
-
 
         // 50顆星隨機放置
         let star = $('.star');
@@ -856,25 +976,25 @@
         })
 
         // stars星空圖層互動
-        $(window).mousemove(function(e){
-        // 找中心點
-        let dotX = document.body.offsetWidth/2;
-        let dotY = document.body.offsetHeight/2;
-        // 滑鼠位置
-        let moveX = (e.clientX-dotX)/30;
-        let moveY = (e.clientY-dotY)/30;
-        // 圖層移動
-        if(e.clientX<dotX){
-            $('.stars').css({'left':-moveX+'px'})
-        }else if(e.clientX>dotX){
-            $('.stars').css({'left':-moveX+'px'})
-        }
-        if(e.clientY<dotY){
-            $('.stars').css({'top':-moveY+'px'})
-        }else if(e.clientY>dotY){
-            $('.stars').css({'top':-moveY+'px'})
-        }
-        });
+        // $(window).mousemove(function(e){
+        // // 找中心點
+        // let dotX = document.body.offsetWidth/2;
+        // let dotY = document.body.offsetHeight/2;
+        // // 滑鼠位置
+        // let moveX = (e.clientX-dotX)/30;
+        // let moveY = (e.clientY-dotY)/30;
+        // // 圖層移動
+        // if(e.clientX<dotX){
+        //     $('.stars').css({'left':-moveX+'px'})
+        // }else if(e.clientX>dotX){
+        //     $('.stars').css({'left':-moveX+'px'})
+        // }
+        // if(e.clientY<dotY){
+        //     $('.stars').css({'top':-moveY+'px'})
+        // }else if(e.clientY>dotY){
+        //     $('.stars').css({'top':-moveY+'px'})
+        // }
+        // });
 
         // 點擊meteor流星雨20顆動畫
         $('.meteor').click(function(){
@@ -884,10 +1004,10 @@
             let long = rand(1,20);
             shootingStar.eq(i).css({
              'top': rand(0,50)+'%',
-             'left':rand(0,50)+'%',
+             'left':rand(0,100)+'%',
              'width': long,
              'height': long,
-             'animation': `rain ${rand(2,4)}s 0.${i}s`            
+             'animation': `rain ${rand(1,3)}s 0.${i}s`            
             });
         }
         })
