@@ -27,7 +27,7 @@
           /* background-color: rgb(59, 46, 46); */
           overflow: hidden;
       }
-      .fog, .stars, .layer3, .layer4, .layer5, .layer6, .layer7, .rain{
+      .fog, .stars, .layer3, .layer4, .layer5, .layer6, .layer7, .rain, .loading{
           width: 100%;
           height: 100%;
           position: absolute;
@@ -178,27 +178,57 @@
           border-radius: 5px;
           cursor: pointer;
       }
-      /*  */
+      /* 流星雨 */
       .shootingStar{
           position: absolute;
           background-color: rgb(216, 218, 152);
           border-radius: 50%;
           opacity: 0;
       }
-      @keyframes rain{
-          0%{
-              opacity: 0;
-              transform: translate(600px,0);
-          }
-          70%{
-              opacity: 1;
-          }
-          100%{
-              opacity: 0;
-              transform: translate(0,600px);
-          }
+      /* loading頁面 */
+      .spaceBack{
+          background-image: linear-gradient(135deg,#cfa8b6,#25443b);
+          background-size: 200% 200%;
+          animation: loadingBack 2s infinite alternate;
+          display: flex;
+          justify-content: center;
+          align-items: center;
       }
-
+      .loadCard{
+          width: 300px;
+          height: 500px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          position: relative;
+      }
+      .loadingImg{
+          width: 200px;
+          height: 200px;
+          background-color: rgb(238, 203, 215);
+          border-radius: 50%;
+          box-shadow: inset -20px 20px 30px lightcoral,inset 20px 20px 50px rgb(160, 72, 72);
+          animation: loadingImg 3s infinite linear;
+      }
+      .loadCard img{
+         position: absolute;
+         top: 30%;
+         left: 10px;
+         animation: loadingStone 2s infinite alternate ease-in-out;
+      }
+      .loadingCounter{
+          width: 300px;
+          font-size: 2rem;
+          font-weight: 800;
+          text-align: center;
+          color: rgb(255, 255, 255);
+      }
+      .byeUP{
+          animation: byeUP 0.8s ease-in;
+      }
+      
       /* add */
       .gogo{
           transform: translateX(-120%);
@@ -246,7 +276,10 @@
       }
       .fog2Animate{
           animation: fog2 10s infinite alternate linear;
-      }  
+      }
+      .byebye{
+          display: none;
+      }
 
       /* 動畫 */
       @keyframes fog1{
@@ -394,6 +427,52 @@
               transform: rotateZ(0deg) translateX(0);
           }
       }
+      @keyframes loadingBack{
+          0%{
+              background-position: 0 0;
+          }
+          100%{
+              background-position: 100% 100%;
+          }
+      }
+      @keyframes loadingImg{
+          0%{
+              transform: rotate(0);
+          }
+          100%{
+              transform: rotate(360deg);
+          }
+      }
+      @keyframes loadingStone{
+          0%{
+              transform: rotate(-5deg) skew(10deg) translate(-5px, -10px);
+          }
+          100%{
+            transform: rotate(5deg) skew(-5deg) translate(5px, 10px);
+          }
+      }
+      @keyframes byeUP{
+          0%{
+            transform: translate(0);
+          }
+          100%{
+            transform: translateY(-200vh);  
+          }
+      }
+      @keyframes rain{
+          0%{
+              opacity: 0;
+              transform: translate(600px,0);
+          }
+          70%{
+              opacity: 1;
+          }
+          100%{
+              opacity: 0;
+              transform: translate(0,600px);
+          }
+      }
+
       /* 1200px以下 */
       @media (max-width: 1200px){
         .bluePlanet img{
@@ -443,7 +522,6 @@
         .bigPlanet{
           top: 50vh;
           left: -50%;
-          /* animation: around2 30s infinite linear; */
         }
         .bigPlanet img{
           width: 200vw;
@@ -620,6 +698,15 @@
             </ul>
         </div>
         
+        <!-- loading頁面 -->
+        <div class="loading spaceBack">
+           <div class="loadCard">
+               <div class="loadingImg"></div>
+               <img src="./img/stone.png" alt="">
+               <div class="loadingCounter">-0%-</div>
+           </div>
+        </div>
+        
     </div>
 
       
@@ -628,8 +715,50 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+     <!-- imagesLoad -->
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 
     <script>
+        // 
+        //loading動畫，計算圖片載入
+        // 引 imagesLoad套件 方法
+        let   imgLoad = imagesLoaded('body'),
+              imgTotal = imgLoad.images.length,
+              imgLoaded = 0,
+              current = 0,
+              //   每秒30次
+              progressTimer = setInterval(upLoad, 1000/30);
+
+        imgLoad.on('progress',function(e){
+            imgLoaded++;                
+        })
+        
+        // 更新載入完成img數目
+        function upLoad(){
+        // 阿基里斯與規的悖論 
+        let    target = (imgLoaded/imgTotal)*100;
+               current += (target - current) * 0.1;
+
+        $('.loadingCounter').text('-'+Math.floor(current)+'%-')
+            if(current>=100){
+                // 完成移除setInterval
+                clearInterval(progressTimer);
+                // 先動畫後再displayNone
+                $('.loading').addClass('byeUP');
+                $('.loading').on('animationend',function(){
+                   $(this).addClass('byebye');
+                })
+            }
+            // 不然會99.99999999999999
+            if(current>99.9){
+                current=100
+            }
+        }
+
+        // 
+
+
         // 50顆星隨機放置
         let star = $('.star');
 
